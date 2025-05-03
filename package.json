@@ -2,7 +2,7 @@
 	"name": "git-log--graph",
 	"displayName": "GitLG",
 	"description": "git log --graph, a free, customizable Git UI",
-	"version": "0.1.23",
+	"version": "0.1.24-dev",
 	"icon": "img/logo.png",
 	"publisher": "phil294",
 	"private": false,
@@ -569,9 +569,13 @@
 			}
 		}
 	},
+	"workspaces": ["web"],
 	"scripts": {
-		"postinstall": "cd web && npm install",
-		"lint": "eslint ."
+		"lint": "eslint .",
+    "prebuild": "bun run -F web build",
+		"build": "esbuild src/extension.js --bundle --platform=node --outfile=main.js --external:vscode && vsce package",
+    "postbuild": "cpx *.vsix vsix-out/ --clean && rm *.vsix",
+		"serve": "bun run -F web serve"
 	},
 	"devDependencies": {
 		"@eslint/eslintrc": "^3.2.0",
@@ -579,6 +583,7 @@
 		"@types/node": "^22.10.1",
 		"@types/vscode": "^1.47.0",
 		"@types/vscode-webview": "^1.57.5",
+		"cpx2": "^8.0.0",
 		"esbuild": "^0.24.0",
 		"eslint": "^9.16.0",
 		"eslint-plugin-jsdoc": "^50.6.0",

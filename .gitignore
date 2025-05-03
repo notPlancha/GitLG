@@ -5,3 +5,5 @@ web-dist
 *.ttf
 todo*
 vsix-out
+temp/
+temp.*
